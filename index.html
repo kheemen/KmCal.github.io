@@ -73,6 +73,14 @@
     .day:nth-child(7n) {
       border-right: none;
     }
+    .day-current-month {
+      border-right-color: #000000;
+      border-bottom-color: #000000;
+    }
+    .day-future-month {
+      border-right-color: #00FF00;
+      border-bottom-color: #00FF00;
+    }
     .day-num {
       font-weight: 600;
       margin-bottom: 2px;
@@ -252,13 +260,19 @@
           date.getFullYear() === todaySg.year &&
           date.getMonth() === todaySg.month &&
           date.getDate() === todaySg.day;
-        const sameMonth =
+
+        const isCurrentMonth =
           date.getFullYear() === todaySg.year &&
           date.getMonth() === todaySg.month;
+        const isFutureMonth =
+          date.getFullYear() > todaySg.year ||
+          (date.getFullYear() === todaySg.year && date.getMonth() > todaySg.month);
 
         const dayEl = document.createElement('div');
         let cls = 'day';
-        if (!sameMonth) cls += ' other-month';
+        if (!isCurrentMonth) cls += ' other-month';
+        if (isCurrentMonth) cls += ' day-current-month';
+        if (isFutureMonth) cls += ' day-future-month';
         if (isToday) cls += ' day-today';
         dayEl.className = cls;
         dayEl.innerHTML = '<div class="day-num">' + date.getDate() + '</div>';
