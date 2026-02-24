@@ -5,6 +5,9 @@ on:
     - cron: '0 * * * *'   # every hour (UTC)
   workflow_dispatch:       # allow manual run
 
+permissions:
+  contents: write  # Add this line
+  
 jobs:
   download-and-commit:
     runs-on: ubuntu-latest
