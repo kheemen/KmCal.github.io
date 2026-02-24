@@ -1,0 +1,33 @@
+name: Update PH ICS
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # every hour (UTC)
+  workflow_dispatch:       # allow manual run
+
+permissions:
+  contents: write  # Add this line
+  
+jobs:
+  download-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download ICS file
+        run: |
+          curl -L "https://ics.calendarlabs.com/67/0d505ce5/Singapore_Holidays.ics" --output basic.ics
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git add basic.ics
+          if git diff --cached --quiet; then
+            echo "No changes in ICS file"
+            exit 0
+          fi
+          git commit -m "Update ICS file"
+          git push
