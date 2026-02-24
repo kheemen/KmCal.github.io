@@ -78,10 +78,13 @@
       margin-bottom: 2px;
     }
     .day.other-month .day-num {
-      opacity: 0.35;
+      opacity: 1;
     }
     .day-today {
       background: #00FF00;
+    }
+    .day-today .day-num {
+      color: #FFFFFF;
     }
     .event {
       line-height: 1.15;
@@ -229,61 +232,36 @@
     const todaySg = getSingaporeToday();
 
     function renderCalendar() {
-      const first = new Date(currentYear, currentMonth, 1);
-      const last = new Date(currentYear, currentMonth + 1, 0);
-      let startOffset = first.getDay();
-      const totalDays = last.getDate();
-      const prevMonth = new Date(currentYear, currentMonth, 0);
-      const prevDays = prevMonth.getDate();
+      const base = new Date(todaySg.year, todaySg.month, todaySg.day);
+      const weekday = base.getDay(); // 0 = Sun
+      const start = new Date(base);
+      start.setDate(base.getDate() - weekday - 7); // start from previous week's Sunday
 
+      const titleDate = base;
       document.getElementById('monthTitle').textContent =
-        first.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        titleDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
       const daysEl = document.getElementById('days');
       daysEl.innerHTML = '';
 
-      for (let i = 0; i < startOffset; i++) {
-        const d = prevDays - startOffset + i + 1;
-        const date = new Date(currentYear, currentMonth - 1, d);
+      for (let i = 0; i < 42; i++) {
+        const date = new Date(start);
+        date.setDate(start.getDate() + i);
         const key = toDateKey(date);
         const isToday =
           date.getFullYear() === todaySg.year &&
           date.getMonth() === todaySg.month &&
           date.getDate() === todaySg.day;
-        const dayEl = document.createElement('div');
-        dayEl.className = 'day other-month' + (isToday ? ' day-today' : '');
-        dayEl.innerHTML = '<div class="day-num">' + d + '</div>';
-        appendEvents(dayEl, key);
-        daysEl.appendChild(dayEl);
-      }
+        const sameMonth =
+          date.getFullYear() === todaySg.year &&
+          date.getMonth() === todaySg.month;
 
-      for (let d = 1; d <= totalDays; d++) {
-        const date = new Date(currentYear, currentMonth, d);
-        const key = toDateKey(date);
-        const isToday =
-          date.getFullYear() === todaySg.year &&
-          date.getMonth() === todaySg.month &&
-          date.getDate() === todaySg.day;
         const dayEl = document.createElement('div');
-        dayEl.className = 'day' + (isToday ? ' day-today' : '');
-        dayEl.innerHTML = '<div class="day-num">' + d + '</div>';
-        appendEvents(dayEl, key);
-        daysEl.appendChild(dayEl);
-      }
-
-      const remaining = 42 - (startOffset + totalDays);
-      const nextMonthFirst = new Date(currentYear, currentMonth + 1, 1);
-      for (let i = 0; i < remaining; i++) {
-        const d = i + 1;
-        const date = new Date(currentYear, currentMonth + 1, d);
-        const key = toDateKey(date);
-        const isToday =
-          date.getFullYear() === todaySg.year &&
-          date.getMonth() === todaySg.month &&
-          date.getDate() === todaySg.day;
-        const dayEl = document.createElement('div');
-        dayEl.className = 'day other-month' + (isToday ? ' day-today' : '');
-        dayEl.innerHTML = '<div class="day-num">' + d + '</div>';
+        let cls = 'day';
+        if (!sameMonth) cls += ' other-month';
+        if (isToday) cls += ' day-today';
+        dayEl.className = cls;
+        dayEl.innerHTML = '<div class="day-num">' + date.getDate() + '</div>';
         appendEvents(dayEl, key);
         daysEl.appendChild(dayEl);
       }
