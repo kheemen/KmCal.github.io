@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyCal – ICS Calendar Viewer</title>
+  <style>
+    :root {
+      --bg: #1a1b26;
+      --surface: #24283b;
+      --text: #c0caf5;
+      --muted: #565f89;
+      --accent: #7aa2f7;
+      --border: #3b4261;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    .input-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    input[type="url"] {
+      flex: 1;
+      padding: 0.6rem 0.9rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+    input[type="url"]::placeholder {
+      color: var(--muted);
+    }
+    input[type="url"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    button {
+      padding: 0.6rem 1.2rem;
+      background: var(--accent);
+      border: none;
+      border-radius: 6px;
+      color: var(--bg);
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    button:hover {
+      filter: brightness(1.1);
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .message {
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+    .message.error {
+      background: rgba(242, 82, 82, 0.15);
+      color: #f25252;
+      border: 1px solid rgba(242, 82, 82, 0.3);
+    }
+    .message.info {
+      background: rgba(122, 162, 247, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(122, 162, 247, 0.3);
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .nav-btn {
+      background: var(--surface);
+      color: var(--text);
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+    }
+    .nav-btn:hover {
+      background: var(--border);
+    }
+    .month-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .calendar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      background: var(--border);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .weekdays span {
+      padding: 0.5rem;
+      text-align: center;
+    }
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+    .day {
+      min-height: 5rem;
+      padding: 0.4rem;
+      background: var(--surface);
+      font-size: 0.85rem;
+    }
+    .day.other-month {
+      color: var(--muted);
+      opacity: 0.6;
+    }
+    .day-num {
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+    .event {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.3rem;
+      margin-bottom: 0.2rem;
+      border-radius: 3px;
+      background: rgba(122, 162, 247, 0.2);
+      color: var(--accent);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .event:hover {
+      background: rgba(122, 162, 247, 0.35);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MyCal – ICS Calendar Viewer</h1>
+    <div class="input-row">
+      <input type="url" id="icsUrl" placeholder="https://calendar.google.com/calendar/ical/rtpdi0t9odf8ttrsd76ofan0k8t5gg86%40import.calendar.google.com/public/basic.ics" />
+      <button id="loadBtn">Load</button>
+    </div>
+    <div id="message"></div>
+    <div id="calendarSection" style="display: none;">
+      <div class="nav">
+        <button class="nav-btn" id="prevBtn">‹ Prev</button>
+        <span class="month-title" id="monthTitle"></span>
+        <button class="nav-btn" id="nextBtn">Next ›</button>
+      </div>
+      <div class="calendar">
+        <div class="weekdays">
+          <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span>
+          <span>Thu</span><span>Fri</span><span>Sat</span>
+        </div>
+        <div id="days" class="days"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showMessage(text, type) {
+      const el = document.getElementById('message');
+      el.textContent = text;
+      el.className = 'message ' + (type || 'info');
+      el.style.display = text ? 'block' : 'none';
+    }
+
+    function parseICS(text) {
+      const rawLines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+      const lines = rawLines.reduce((acc, line) => {
+        if (line.startsWith(' ') || line.startsWith('\t'))
+          acc[acc.length - 1] += line.slice(1);
+        else
+          acc.push(line);
+        return acc;
+      }, []);
+
+      const events = [];
+      let current = null;
+
+      for (const line of lines) {
+        if (line === 'BEGIN:VEVENT') {
+          current = {};
+        } else if (line === 'END:VEVENT' && current) {
+          if (current.DTSTART) events.push(current);
+          current = null;
+        } else if (current) {
+          const colon = line.indexOf(':');
+          if (colon !== -1) {
+            const key = line.slice(0, colon).split(';')[0];
+            const val = line.slice(colon + 1).replace(/\\n/g, '\n').replace(/\\,/g, ',');
+            if (key === 'SUMMARY' || key === 'DTSTART' || key === 'DTEND' || key === 'DESCRIPTION') {
+              current[key] = val;
+            }
+          }
+        }
+      }
+      return events;
+    }
+
+    function parseICSDatetime(str) {
+      const cleaned = str.replace(/\s/g, '');
+      let date;
+      if (cleaned.length === 8) {
+        date = new Date(
+          parseInt(cleaned.slice(0, 4), 10),
+          parseInt(cleaned.slice(4, 6), 10) - 1,
+          parseInt(cleaned.slice(6, 8), 10)
+        );
+      } else {
+        const isUTC = cleaned.endsWith('Z');
+        const d = cleaned.replace('T', '').replace('Z', '').slice(0, 15);
+        const y = parseInt(d.slice(0, 4), 10);
+        const m = parseInt(d.slice(4, 6), 10) - 1;
+        const day = parseInt(d.slice(6, 8), 10);
+        const h = parseInt(d.slice(9, 11), 10) || 0;
+        const min = parseInt(d.slice(11, 13), 10) || 0;
+        const sec = parseInt(d.slice(13, 15), 10) || 0;
+        date = isUTC
+          ? new Date(Date.UTC(y, m, day, h, min, sec))
+          : new Date(y, m, day, h, min, sec);
+      }
+      return date;
+    }
+
+    function isDateOnly(str) {
+      return str && /^\d{8}$/.test(str.replace(/\s/g, ''));
+    }
+
+    function normalizeEventDate(evt) {
+      const start = parseICSDatetime(evt.DTSTART);
+      const end = evt.DTEND ? parseICSDatetime(evt.DTEND) : new Date(start.getTime() + 3600000);
+      const summary = (evt.SUMMARY || 'Untitled').trim();
+      const allDay = isDateOnly(evt.DTSTART) && (!evt.DTEND || isDateOnly(evt.DTEND));
+      return { start, end, summary, allDay };
+    }
+
+    function toDateKey(d) {
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    function buildEventsByDate(rawEvents) {
+      const byDate = {};
+      for (const e of rawEvents) {
+        const { start, end, summary, allDay } = normalizeEventDate(e);
+        const date = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+        const endDate = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+        const stop = allDay ? endDate : new Date(endDate.getTime() + 86400000);
+        while (date < stop) {
+          const key = toDateKey(date);
+          if (!byDate[key]) byDate[key] = [];
+          byDate[key].push({ date: new Date(date), summary });
+          date.setDate(date.getDate() + 1);
+        }
+      }
+      return byDate;
+    }
+
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    let eventsByDate = {};
+
+    function renderCalendar() {
+      const first = new Date(currentYear, currentMonth, 1);
+      const last = new Date(currentYear, currentMonth + 1, 0);
+      let startOffset = first.getDay();
+      const totalDays = last.getDate();
+      const prevMonth = new Date(currentYear, currentMonth, 0);
+      const prevDays = prevMonth.getDate();
+
+      document.getElementById('monthTitle').textContent =
+        first.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+      const daysEl = document.getElementById('days');
+      daysEl.innerHTML = '';
+
+      for (let i = 0; i < startOffset; i++) {
+        const d = prevDays - startOffset + i + 1;
+        const date = new Date(currentYear, currentMonth - 1, d);
+        const key = toDateKey(date);
+        const dayEl = document.createElement('div');
+        dayEl.className = 'day other-month';
+        dayEl.innerHTML = '<div class="day-num">' + d + '</div>';
+        appendEvents(dayEl, key);
+        daysEl.appendChild(dayEl);
+      }
+
+      for (let d = 1; d <= totalDays; d++) {
+        const date = new Date(currentYear, currentMonth, d);
+        const key = toDateKey(date);
+        const dayEl = document.createElement('div');
+        dayEl.className = 'day';
+        dayEl.innerHTML = '<div class="day-num">' + d + '</div>';
+        appendEvents(dayEl, key);
+        daysEl.appendChild(dayEl);
+      }
+
+      const remaining = 42 - (startOffset + totalDays);
+      const nextMonthFirst = new Date(currentYear, currentMonth + 1, 1);
+      for (let i = 0; i < remaining; i++) {
+        const d = i + 1;
+        const date = new Date(currentYear, currentMonth + 1, d);
+        const key = toDateKey(date);
+        const dayEl = document.createElement('div');
+        dayEl.className = 'day other-month';
+        dayEl.innerHTML = '<div class="day-num">' + d + '</div>';
+        appendEvents(dayEl, key);
+        daysEl.appendChild(dayEl);
+      }
+    }
+
+    function appendEvents(dayEl, key) {
+      const list = eventsByDate[key] || [];
+      for (const ev of list) {
+        const span = document.createElement('div');
+        span.className = 'event';
+        span.title = ev.summary;
+        span.textContent = ev.summary;
+        dayEl.appendChild(span);
+      }
+    }
+
+    async function loadCalendar() {
+      const urlInput = document.getElementById('icsUrl');
+      const url = urlInput.value.trim();
+      if (!url) {
+        showMessage('Please enter an ICS calendar URL.', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('loadBtn');
+      btn.disabled = true;
+      showMessage('Loading...', 'info');
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Failed to fetch: ' + res.status);
+        const text = await res.text();
+        const raw = parseICS(text);
+        const events = raw.map(normalizeEventDate);
+        eventsByDate = buildEventsByDate(raw);
+        currentMonth = new Date().getMonth();
+        currentYear = new Date().getFullYear();
+        document.getElementById('calendarSection').style.display = 'block';
+        renderCalendar();
+        showMessage('Loaded ' + events.length + ' event(s).', 'info');
+      } catch (err) {
+        showMessage('Error: ' + (err.message || 'Could not load calendar. Check CORS if the URL is on another domain.'), 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    document.getElementById('loadBtn').addEventListener('click', loadCalendar);
+    document.getElementById('icsUrl').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') loadCalendar();
+    });
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      renderCalendar();
+    });
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      renderCalendar();
+    });
+  </script>
+</body>
+</html>
