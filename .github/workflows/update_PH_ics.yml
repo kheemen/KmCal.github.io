@@ -18,7 +18,7 @@ jobs:
 
       - name: Download ICS file
         run: |
-          curl -L "https://ics.calendarlabs.com/67/0d505ce5/Singapore_Holidays.ics" --output basic.ics
+          curl -L "https://calendar.google.com/calendar/ical/en.singapore%23holiday%40group.v.calendar.google.com/public/basic.ics" --output basic.ics
 
       - name: Commit and push if changed
         run: |
