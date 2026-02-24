@@ -20,13 +20,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 8px;
     }
     .calendar-wrap {
-      width: 100%;
-      height: 100%;
-      max-width: 1024px;
-      max-height: 768px;
+      width: 800px;
+      height: 480px;
       display: flex;
       flex-direction: column;
     }
@@ -57,7 +54,7 @@
       flex: 1;
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      grid-auto-rows: 1fr;
+      grid-template-rows: repeat(6, 1fr);
       border-top: 1px solid #000000;
     }
     .day {
@@ -83,6 +80,14 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      padding: 1px 2px;
+      border-radius: 2px;
+    }
+    .event-basic {
+      background: #cce4ff;
+    }
+    .event-calendar {
+      background: #fff4b8;
     }
   </style>
 </head>
@@ -101,7 +106,7 @@
   </div>
 
   <script>
-    const ICS_URLS = ['basic.ics', 'calendar.ics'];
+    const ICS_URLS = ['https://kheemen.github.io/KmCal.github.io/basic.ics', 'https://kheemen.github.io/KmCal.github.io/calendar.ics'];
 
     function parseICS(text) {
       const rawLines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
@@ -170,7 +175,8 @@
       const end = evt.DTEND ? parseICSDatetime(evt.DTEND) : new Date(start.getTime() + 3600000);
       const summary = (evt.SUMMARY || 'Untitled').trim();
       const allDay = isDateOnly(evt.DTSTART) && (!evt.DTEND || isDateOnly(evt.DTEND));
-      return { start, end, summary, allDay };
+      const colorClass = evt.__source === 'basic' ? 'event-basic' : evt.__source === 'calendar' ? 'event-calendar' : '';
+      return { start, end, summary, allDay, colorClass };
     }
 
     function toDateKey(d) {
@@ -180,14 +186,14 @@
     function buildEventsByDate(rawEvents) {
       const byDate = {};
       for (const e of rawEvents) {
-        const { start, end, summary, allDay } = normalizeEventDate(e);
+        const { start, end, summary, allDay, colorClass } = normalizeEventDate(e);
         const date = new Date(start.getFullYear(), start.getMonth(), start.getDate());
         const endDate = new Date(end.getFullYear(), end.getMonth(), end.getDate());
         const stop = allDay ? endDate : new Date(endDate.getTime() + 86400000);
         while (date < stop) {
           const key = toDateKey(date);
           if (!byDate[key]) byDate[key] = [];
-          byDate[key].push({ date: new Date(date), summary });
+          byDate[key].push({ date: new Date(date), summary, colorClass });
           date.setDate(date.getDate() + 1);
         }
       }
@@ -251,7 +257,7 @@
       const list = eventsByDate[key] || [];
       for (const ev of list) {
         const span = document.createElement('div');
-        span.className = 'event';
+        span.className = 'event ' + (ev.colorClass || '');
         span.title = ev.summary;
         span.textContent = ev.summary;
         dayEl.appendChild(span);
@@ -266,7 +272,10 @@
           )
         );
         const allRawEvents = responses
-          .map(text => parseICS(text))
+          .map((text, idx) => {
+            const source = idx === 0 ? 'basic' : 'calendar';
+            return parseICS(text).map(e => ({ ...e, __source: source }));
+          })
           .reduce((acc, arr) => acc.concat(arr), []);
 
         eventsByDate = buildEventsByDate(allRawEvents);
