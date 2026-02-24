@@ -39,6 +39,9 @@
       gap: 0.5rem;
       margin-bottom: 1.5rem;
     }
+    .input-row button {
+      display: none;
+    }
     input[type="url"] {
       flex: 1;
       padding: 0.6rem 0.9rem;
@@ -166,7 +169,7 @@
   <div class="container">
     <h1>MyCal – ICS Calendar Viewer</h1>
     <div class="input-row">
-      <input type="url" id="icsUrl" placeholder="https://calendar.google.com/calendar/ical/rtpdi0t9odf8ttrsd76ofan0k8t5gg86%40import.calendar.google.com/public/basic.ics" />
+      <input type="url" id="icsUrl" placeholder="basic.ics" />
       <button id="loadBtn">Load</button>
     </div>
     <div id="message"></div>
@@ -187,6 +190,8 @@
   </div>
 
   <script>
+    const DEFAULT_ICS_URL = 'basic.ics';
+
     function showMessage(text, type) {
       const el = document.getElementById('message');
       el.textContent = text;
@@ -351,14 +356,10 @@
 
     async function loadCalendar() {
       const urlInput = document.getElementById('icsUrl');
-      const url = urlInput.value.trim();
-      if (!url) {
-        showMessage('Please enter an ICS calendar URL.', 'error');
-        return;
-      }
+      const url = (urlInput?.value.trim()) || DEFAULT_ICS_URL;
 
       const btn = document.getElementById('loadBtn');
-      btn.disabled = true;
+      if (btn) btn.disabled = true;
       showMessage('Loading...', 'info');
 
       try {
@@ -376,7 +377,7 @@
       } catch (err) {
         showMessage('Error: ' + (err.message || 'Could not load calendar. Check CORS if the URL is on another domain.'), 'error');
       } finally {
-        btn.disabled = false;
+        if (btn) btn.disabled = false;
       }
     }
 
@@ -399,6 +400,14 @@
         currentYear++;
       }
       renderCalendar();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlInput = document.getElementById('icsUrl');
+      if (urlInput && !urlInput.value) {
+        urlInput.value = DEFAULT_ICS_URL;
+      }
+      loadCalendar();
     });
   </script>
 </body>
