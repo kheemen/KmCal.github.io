@@ -5,180 +5,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MyCal – ICS Calendar Viewer</title>
   <style>
-    :root {
-      --bg: #1a1b26;
-      --surface: #24283b;
-      --text: #c0caf5;
-      --muted: #565f89;
-      --accent: #7aa2f7;
-      --border: #3b4261;
-    }
     * {
       box-sizing: border-box;
     }
     body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
       margin: 0;
-      min-height: 100vh;
-      padding: 1.5rem;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #ffffff;
+      color: #000000;
     }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: var(--text);
-    }
-    .input-row {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-    .input-row button {
-      display: none;
-    }
-    input[type="url"] {
-      flex: 1;
-      padding: 0.6rem 0.9rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-size: 0.95rem;
-    }
-    input[type="url"]::placeholder {
-      color: var(--muted);
-    }
-    input[type="url"]:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-    button {
-      padding: 0.6rem 1.2rem;
-      background: var(--accent);
-      border: none;
-      border-radius: 6px;
-      color: var(--bg);
-      font-weight: 500;
-      cursor: pointer;
-      font-size: 0.95rem;
-    }
-    button:hover {
-      filter: brightness(1.1);
-    }
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .message {
-      padding: 0.75rem;
-      border-radius: 6px;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-    }
-    .message.error {
-      background: rgba(242, 82, 82, 0.15);
-      color: #f25252;
-      border: 1px solid rgba(242, 82, 82, 0.3);
-    }
-    .message.info {
-      background: rgba(122, 162, 247, 0.15);
-      color: var(--accent);
-      border: 1px solid rgba(122, 162, 247, 0.3);
-    }
-    .nav {
+    .calendar-root {
+      width: 100vw;
+      height: 100vh;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
+      justify-content: center;
+      padding: 8px;
     }
-    .nav-btn {
-      background: var(--surface);
-      color: var(--text);
-      padding: 0.4rem 0.8rem;
-      font-size: 0.9rem;
-    }
-    .nav-btn:hover {
-      background: var(--border);
+    .calendar-wrap {
+      width: 100%;
+      height: 100%;
+      max-width: 1024px;
+      max-height: 768px;
+      display: flex;
+      flex-direction: column;
     }
     .month-title {
-      font-size: 1.1rem;
+      text-align: center;
       font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 4px;
     }
     .calendar {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
+      flex: 1;
+      border: 1px solid #000000;
+      display: flex;
+      flex-direction: column;
     }
     .weekdays {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      background: var(--border);
-      font-size: 0.75rem;
+      border-bottom: 1px solid #000000;
+      font-size: 0.8rem;
       font-weight: 600;
-      text-transform: uppercase;
-      color: var(--muted);
     }
     .weekdays span {
-      padding: 0.5rem;
+      padding: 4px;
       text-align: center;
     }
     .days {
+      flex: 1;
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 1px;
-      background: var(--border);
+      grid-auto-rows: 1fr;
+      border-top: 1px solid #000000;
     }
     .day {
-      min-height: 5rem;
-      padding: 0.4rem;
-      background: var(--surface);
-      font-size: 0.85rem;
+      border-right: 1px solid #000000;
+      border-bottom: 1px solid #000000;
+      padding: 2px 3px;
+      font-size: 0.7rem;
+      display: flex;
+      flex-direction: column;
     }
-    .day.other-month {
-      color: var(--muted);
-      opacity: 0.6;
+    .day:nth-child(7n) {
+      border-right: none;
     }
     .day-num {
-      font-weight: 500;
-      margin-bottom: 0.25rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .day.other-month .day-num {
+      opacity: 0.35;
     }
     .event {
-      font-size: 0.7rem;
-      padding: 0.15rem 0.3rem;
-      margin-bottom: 0.2rem;
-      border-radius: 3px;
-      background: rgba(122, 162, 247, 0.2);
-      color: var(--accent);
+      line-height: 1.15;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .event:hover {
-      background: rgba(122, 162, 247, 0.35);
-    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>MyCal – ICS Calendar Viewer</h1>
-    <div class="input-row">
-      <input type="url" id="icsUrl" placeholder="basic.ics" />
-      <button id="loadBtn">Load</button>
-    </div>
-    <div id="message"></div>
-    <div id="calendarSection" style="display: none;">
-      <div class="nav">
-        <button class="nav-btn" id="prevBtn">‹ Prev</button>
-        <span class="month-title" id="monthTitle"></span>
-        <button class="nav-btn" id="nextBtn">Next ›</button>
-      </div>
+  <div class="calendar-root">
+    <div class="calendar-wrap">
+      <div class="month-title" id="monthTitle"></div>
       <div class="calendar">
         <div class="weekdays">
           <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span>
@@ -190,14 +101,7 @@
   </div>
 
   <script>
-    const DEFAULT_ICS_URL = 'basic.ics';
-
-    function showMessage(text, type) {
-      const el = document.getElementById('message');
-      el.textContent = text;
-      el.className = 'message ' + (type || 'info');
-      el.style.display = text ? 'block' : 'none';
-    }
+    const ICS_URLS = ['basic.ics', 'calendar.ics'];
 
     function parseICS(text) {
       const rawLines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
@@ -355,37 +259,26 @@
     }
 
     async function loadCalendar() {
-      const urlInput = document.getElementById('icsUrl');
-      const url = (urlInput?.value.trim()) || DEFAULT_ICS_URL;
-
-      const btn = document.getElementById('loadBtn');
-      if (btn) btn.disabled = true;
-      showMessage('Loading...', 'info');
-
       try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error('Failed to fetch: ' + res.status);
-        const text = await res.text();
-        const raw = parseICS(text);
-        const events = raw.map(normalizeEventDate);
-        eventsByDate = buildEventsByDate(raw);
+        const responses = await Promise.all(
+          ICS_URLS.map(url =>
+            fetch(url).then(r => (r.ok ? r.text() : Promise.reject(new Error('Failed to fetch ' + url + ': ' + r.status))))
+          )
+        );
+        const allRawEvents = responses
+          .map(text => parseICS(text))
+          .reduce((acc, arr) => acc.concat(arr), []);
+
+        eventsByDate = buildEventsByDate(allRawEvents);
         currentMonth = new Date().getMonth();
         currentYear = new Date().getFullYear();
-        document.getElementById('calendarSection').style.display = 'block';
         renderCalendar();
-        showMessage('Loaded ' + events.length + ' event(s).', 'info');
       } catch (err) {
-        showMessage('Error: ' + (err.message || 'Could not load calendar. Check CORS if the URL is on another domain.'), 'error');
-      } finally {
-        if (btn) btn.disabled = false;
+        console.error('Calendar load error', err);
       }
     }
 
-    document.getElementById('loadBtn').addEventListener('click', loadCalendar);
-    document.getElementById('icsUrl').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') loadCalendar();
-    });
-    document.getElementById('prevBtn').addEventListener('click', () => {
+    document.getElementById('prevBtn')?.addEventListener('click', () => {
       currentMonth--;
       if (currentMonth < 0) {
         currentMonth = 11;
@@ -393,7 +286,7 @@
       }
       renderCalendar();
     });
-    document.getElementById('nextBtn').addEventListener('click', () => {
+    document.getElementById('nextBtn')?.addEventListener('click', () => {
       currentMonth++;
       if (currentMonth > 11) {
         currentMonth = 0;
@@ -402,13 +295,7 @@
       renderCalendar();
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const urlInput = document.getElementById('icsUrl');
-      if (urlInput && !urlInput.value) {
-        urlInput.value = DEFAULT_ICS_URL;
-      }
-      loadCalendar();
-    });
+    window.addEventListener('DOMContentLoaded', loadCalendar);
   </script>
 </body>
 </html>
