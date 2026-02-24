@@ -292,19 +292,25 @@
       }
     }
 
-    async function loadCalendar() {
+    function loadCalendar() {
       try {
-        const responses = await Promise.all(
-          ICS_URLS.map(url =>
-            fetch(url).then(r => (r.ok ? r.text() : Promise.reject(new Error('Failed to fetch ' + url + ': ' + r.status))))
-          )
-        );
-        const allRawEvents = responses
-          .map((text, idx) => {
-            const source = idx === 0 ? 'basic' : 'calendar';
-            return parseICS(text).map(e => ({ ...e, __source: source }));
-          })
-          .reduce((acc, arr) => acc.concat(arr), []);
+        const allRawEvents = [];
+
+        for (let idx = 0; idx < ICS_URLS.length; idx++) {
+          const url = ICS_URLS[idx];
+          const source = idx === 0 ? 'basic' : 'calendar';
+
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', url, false);
+          xhr.send(null);
+
+          if (xhr.status < 200 || xhr.status >= 300) {
+            throw new Error('Failed to fetch ' + url + ': ' + xhr.status);
+          }
+
+          const rawEvents = parseICS(xhr.responseText).map(e => ({ ...e, __source: source }));
+          allRawEvents.push(...rawEvents);
+        }
 
         eventsByDate = buildEventsByDate(allRawEvents);
         currentMonth = new Date().getMonth();
