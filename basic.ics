@@ -1,0 +1,398 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Calendar Labs//Calendar 1.0//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Singapore Holidays
+X-WR-TIMEZONE:UTC
+BEGIN:VEVENT
+UID:2etbplgq5@calendarlabs.com
+DTSTART;VALUE=DATE:20250101
+DTEND;VALUE=DATE:20250101
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:New Year's Day
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:1scex1vkg@calendarlabs.com
+DTSTART;VALUE=DATE:20250129
+DTEND;VALUE=DATE:20250129
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Chinese New Year
+DESCRIPTION:Visit https://calendarlabs.com/holidays/china/chinese-new-year.php to know more about Chinese New Year. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:2qlb55o17@calendarlabs.com
+DTSTART;VALUE=DATE:20250130
+DTEND;VALUE=DATE:20250130
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:2nd day of Chinese New Year
+DESCRIPTION:Visit https://calendarlabs.com/holidays/china/chinese-new-year.php to know more about 2nd day of Chinese New Year. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:tubmvn1kw@calendarlabs.com
+DTSTART;VALUE=DATE:20250331
+DTEND;VALUE=DATE:20250331
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Hari Raya Puasa
+DESCRIPTION:Visit https://calendarlabs.com/holidays/singapore/hari-raya-puasa.php to know more about Hari Raya Puasa. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:8cthb0dqd@calendarlabs.com
+DTSTART;VALUE=DATE:20250418
+DTEND;VALUE=DATE:20250418
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Good Friday
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/good-friday.php to know more about Good Friday. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:eh355wg7s@calendarlabs.com
+DTSTART;VALUE=DATE:20250501
+DTEND;VALUE=DATE:20250501
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Labour Day
+DESCRIPTION:Visit https://calendarlabs.com/holidays/uk/may-day.php to know more about Labour Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:ohgk0qj9i@calendarlabs.com
+DTSTART;VALUE=DATE:20250512
+DTEND;VALUE=DATE:20250512
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Vesak Day
+DESCRIPTION:Visit https://calendarlabs.com/holidays/singapore/vesak-day.php to know more about Vesak Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:ycybt41nv@calendarlabs.com
+DTSTART;VALUE=DATE:20250606
+DTEND;VALUE=DATE:20250606
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Hari Raya Haji
+DESCRIPTION:Visit https://calendarlabs.com/holidays/singapore/hari-raya-haji.php to know more about Hari Raya Haji. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:nwfeobkli@calendarlabs.com
+DTSTART;VALUE=DATE:20250809
+DTEND;VALUE=DATE:20250809
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:National Day
+DESCRIPTION:Visit https://calendarlabs.com/holidays/singapore/national-day.php to know more about National Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:o9w19c166@calendarlabs.com
+DTSTART;VALUE=DATE:20251020
+DTEND;VALUE=DATE:20251020
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Deepavali / Diwali
+DESCRIPTION:Visit https://calendarlabs.com/holidays/india/diwali.php to know more about Deepavali / Diwali. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:09j8b9t6v@calendarlabs.com
+DTSTART;VALUE=DATE:20251225
+DTEND;VALUE=DATE:20251225
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Christmas Day
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/christmas.php to know more about Christmas Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:4d0zpsdhm@calendarlabs.com
+DTSTART;VALUE=DATE:20260101
+DTEND;VALUE=DATE:20260101
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:New Year's Day
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/new-years-day.php to know more about New Year's Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:h7ycyfskf@calendarlabs.com
+DTSTART;VALUE=DATE:20260217
+DTEND;VALUE=DATE:20260217
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Chinese New Year
+DESCRIPTION:Visit https://calendarlabs.com/holidays/china/chinese-new-year.php to know more about Chinese New Year. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:koakbd40q@calendarlabs.com
+DTSTART;VALUE=DATE:20260218
+DTEND;VALUE=DATE:20260218
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:2nd day of Chinese New Year
+DESCRIPTION:Visit https://calendarlabs.com/holidays/china/chinese-new-year.php to know more about 2nd day of Chinese New Year. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:c6z8gswlw@calendarlabs.com
+DTSTART;VALUE=DATE:20260321
+DTEND;VALUE=DATE:20260321
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Hari Raya Puasa
+DESCRIPTION:Visit https://calendarlabs.com/holidays/singapore/hari-raya-puasa.php to know more about Hari Raya Puasa. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:m1not6ek4@calendarlabs.com
+DTSTART;VALUE=DATE:20260403
+DTEND;VALUE=DATE:20260403
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Good Friday
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/good-friday.php to know more about Good Friday. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:55gsll1mu@calendarlabs.com
+DTSTART;VALUE=DATE:20260501
+DTEND;VALUE=DATE:20260501
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Labour Day
+DESCRIPTION:Visit https://calendarlabs.com/holidays/uk/may-day.php to know more about Labour Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:zqbbicx6w@calendarlabs.com
+DTSTART;VALUE=DATE:20260527
+DTEND;VALUE=DATE:20260527
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Hari Raya Haji
+DESCRIPTION:Visit https://calendarlabs.com/holidays/singapore/hari-raya-haji.php to know more about Hari Raya Haji. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:rqe4bkca3@calendarlabs.com
+DTSTART;VALUE=DATE:20260531
+DTEND;VALUE=DATE:20260531
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Vesak Day
+DESCRIPTION:Visit https://calendarlabs.com/holidays/singapore/vesak-day.php to know more about Vesak Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:5amkh4vyf@calendarlabs.com
+DTSTART;VALUE=DATE:20260601
+DTEND;VALUE=DATE:20260601
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Vesak Day Holiday
+DESCRIPTION:Visit https://calendarlabs.com/holidays/singapore/vesak-day.php to know more about Vesak Day Holiday. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:54wfs8vvr@calendarlabs.com
+DTSTART;VALUE=DATE:20260809
+DTEND;VALUE=DATE:20260809
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:National Day
+DESCRIPTION:Visit https://calendarlabs.com/holidays/singapore/national-day.php to know more about National Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:sjl571bh7@calendarlabs.com
+DTSTART;VALUE=DATE:20260810
+DTEND;VALUE=DATE:20260810
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:National Day Holiday
+DESCRIPTION:Visit https://calendarlabs.com/holidays/singapore/national-day.php to know more about National Day Holiday. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:c5csszobx@calendarlabs.com
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261108
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Deepavali / Diwali
+DESCRIPTION:Visit https://calendarlabs.com/holidays/india/diwali.php to know more about Deepavali / Diwali. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:dk2n4yo9m@calendarlabs.com
+DTSTART;VALUE=DATE:20261109
+DTEND;VALUE=DATE:20261109
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Deepavali Holiday
+DESCRIPTION:Visit https://calendarlabs.com/holidays/india/diwali.php to know more about Deepavali Holiday. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:zub8n6sii@calendarlabs.com
+DTSTART;VALUE=DATE:20261225
+DTEND;VALUE=DATE:20261225
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Christmas Day
+DESCRIPTION:Visit https://calendarlabs.com/holidays/us/christmas.php to know more about Christmas Day. \n\n Like us on Facebook: http://fb.com/calendarlabs to get updates
+LOCATION:Singapore
+END:VEVENT
+BEGIN:VEVENT
+UID:f5233a871e07a427db238325949467e7
+DTSTART:20260301T010000Z
+DTEND:20260301T011500Z
+DTSTAMP:20260105T094958Z
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+SEQUENCE:0
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+SUMMARY:Singapore Holidays in your calendar!
+DESCRIPTION:Thanks for subscribing! Your calendar is ready and will auto-update with any schedule changes. Discover more exciting calendars at https://calendarlabs.com/ical-calendar
+LOCATION:Powered by CalendarLabs.com
+END:VEVENT
+END:VCALENDAR
