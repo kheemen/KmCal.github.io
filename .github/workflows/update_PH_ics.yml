@@ -2,12 +2,12 @@ name: Update PH ICS
 
 on:
   schedule:
-    - cron: '0 * * * *'   # every hour (UTC)
+    - cron: '0 */12 * * *'   # every 12 hours (UTC)
   workflow_dispatch:       # allow manual run
 
 permissions:
   contents: write  # Add this line
-  
+
 jobs:
   download-and-commit:
     runs-on: ubuntu-latest
