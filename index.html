@@ -78,8 +78,14 @@
       border-bottom-color: #000000;
     }
     .day-future-month {
-      border-right-color: #00FF00;
-      border-bottom-color: #00FF00;
+      border-right: 1px solid transparent;
+      border-bottom: 1px solid transparent;
+      background-image:
+        repeating-linear-gradient(to right, #00FF00 0, #00FF00 16px, transparent 16px, transparent 22px),
+        repeating-linear-gradient(to bottom, #00FF00 0, #00FF00 16px, transparent 16px, transparent 22px);
+      background-size: 100% 1px, 1px 100%;
+      background-position: bottom, right;
+      background-repeat: repeat-x, repeat-y;
     }
     .day-num {
       font-weight: 600;
