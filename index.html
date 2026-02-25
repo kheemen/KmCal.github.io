@@ -110,11 +110,11 @@
       border-radius: 2px;
     }
     .event-basic {
-      background: #FF0000;
+      background: #0000FF;
       color: #FFFFFF;
     }
     .event-school-holidays {
-      background: #0000FF;
+      background: #FF0000;
       color: #FFFFFF;
     }
     .event-calendar {
@@ -288,7 +288,7 @@
         if (isFutureMonth) cls += ' day-future-month';
         if (isToday) cls += ' day-today';
         dayEl.className = cls;
-        dayEl.innerHTML = '<div class="day-num">' + date.getDate() + '</div>';
+        dayEl.innerHTML = '<div class="day-num">' + date.getDate() + '</div>'; 
         appendEvents(dayEl, key);
         daysEl.appendChild(dayEl);
       }
