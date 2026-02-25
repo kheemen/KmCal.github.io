@@ -134,7 +134,9 @@
   </div>
 
   <script>
-    const ICS_URLS = ['https://kheemen.github.io/KmCal.github.io/basic.ics', 'https://kheemen.github.io/KmCal.github.io/calendar.ics'];
+    const ICS_URLS = ['https://kheemen.github.io/KmCal.github.io/basic.ics',
+    'https://kheemen.github.io/KmCal.github.io/school-holidays.ics',
+    'https://kheemen.github.io/KmCal.github.io/calendar.ics'];
 
     function parseICS(text) {
       const rawLines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
