@@ -95,7 +95,7 @@
       opacity: 1;
     }
     .day-today {
-      background: #00FF00;
+      background: #FFFF00;
     }
     .day-today .day-num {
       color: #FFFFFF;
@@ -118,7 +118,7 @@
       color: #FFFFFF;
     }
     .event-calendar {
-      background: #FFFF00;
+      background: #00FF00;
       color: #000000;
     }
   </style>
@@ -202,8 +202,7 @@
     }
 
     function isDateOnly(str) {
-      return str && /^\d{8}$/.test(str.replace(/\s/g, ''));
-    }
+      return str && /^\d{8}$/.test(str.replace(/\s/g, ''));}
 
     function normalizeEventDate(evt) {
       const start = parseICSDatetime(evt.DTSTART);
