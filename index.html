@@ -100,6 +100,9 @@
     .day-today .day-num {
       color: #000000;
     }
+    .day-weekend {
+      background: #E8E8E8;
+    }
     .event {
       font-size: 0.8rem;
       line-height: 1.15;
@@ -288,6 +291,8 @@
         if (isCurrentMonth) cls += ' day-current-month';
         if (isFutureMonth) cls += ' day-future-month';
         if (isToday) cls += ' day-today';
+        const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+        if (isWeekend && !isToday) cls += ' day-weekend';
         dayEl.className = cls;
         dayEl.innerHTML = '<div class="day-num">' + date.getDate() + '</div>'; 
         appendEvents(dayEl, key);
