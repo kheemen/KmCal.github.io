@@ -202,7 +202,8 @@
     }
 
     function isDateOnly(str) {
-      return str && /^\d{8}$/.test(str.replace(/\s/g, ''));}
+      return str && /^\d{8}$/.test(str.replace(/\s/g, ''));
+    }
 
     function normalizeEventDate(evt) {
       const start = parseICSDatetime(evt.DTSTART);
@@ -223,7 +224,7 @@
         const { start, end, summary, allDay, colorClass } = normalizeEventDate(e);
         const date = new Date(start.getFullYear(), start.getMonth(), start.getDate());
         const endDate = new Date(end.getFullYear(), end.getMonth(), end.getDate());
-        const stop = allDay ? endDate : new Date(endDate.getTime() + 86400000);
+        const stop = allDay ? endDate : endDate; // Fixed: Don't extend non-all-day events
         while (date < stop) {
           const key = toDateKey(date);
           if (!byDate[key]) byDate[key] = [];
