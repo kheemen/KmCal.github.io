@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src https://kheemen.github.io; img-src 'self';">
   <title>MyCal – ICS Calendar Viewer</title>
   <style>
     * {
@@ -264,7 +265,7 @@
         titleDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
       const daysEl = document.getElementById('days');
-      daysEl.innerHTML = '';
+      while (daysEl.firstChild) daysEl.removeChild(daysEl.firstChild);
 
       for (let i = 0; i < 42; i++) {
         const date = new Date(start);
@@ -291,7 +292,10 @@
         const isWeekend = date.getDay() === 0 || date.getDay() === 6;
         if (isWeekend && !isToday) cls += ' day-weekend';
         dayEl.className = cls;
-        dayEl.innerHTML = '<div class="day-num">' + date.getDate() + '</div>'; 
+        const numDiv = document.createElement('div');
+        numDiv.className = 'day-num';
+        numDiv.textContent = date.getDate();
+        dayEl.appendChild(numDiv);
         appendEvents(dayEl, key);
         daysEl.appendChild(dayEl);
       }
@@ -308,25 +312,22 @@
       }
     }
 
-    function loadCalendar() {
+    async function loadCalendar() {
       try {
+        const sources = ['school-holidays', 'basic', 'calendar'];
         const allRawEvents = [];
 
-        for (let idx = 0; idx < ICS_URLS.length; idx++) {
-          const url = ICS_URLS[idx];
-          const source = idx === 0 ? 'basic' : idx === 1 ? 'school-holidays' : 'calendar';
+        const results = await Promise.all(
+          ICS_URLS.map(url => fetch(url).then(r => {
+            if (!r.ok) throw new Error('Failed to fetch ' + url + ': ' + r.status);
+            return r.text();
+          }))
+        );
 
-          const xhr = new XMLHttpRequest();
-          xhr.open('GET', url, false);
-          xhr.send(null);
-
-          if (xhr.status < 200 || xhr.status >= 300) {
-            throw new Error('Failed to fetch ' + url + ': ' + xhr.status);
-          }
-
-          const rawEvents = parseICS(xhr.responseText).map(e => ({ ...e, __source: source }));
+        results.forEach((text, idx) => {
+          const rawEvents = parseICS(text).map(e => ({ ...e, __source: sources[idx] }));
           allRawEvents.push(...rawEvents);
-        }
+        });
 
         eventsByDate = buildEventsByDate(allRawEvents);
         currentMonth = new Date().getMonth();
