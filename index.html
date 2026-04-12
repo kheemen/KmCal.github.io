@@ -168,7 +168,7 @@
           if (colon !== -1) {
             const key = line.slice(0, colon).split(';')[0];
             const val = line.slice(colon + 1).replace(/\\n/g, '\n').replace(/\\,/g, ',');
-            if (key === 'SUMMARY' || key === 'DTSTART' || key === 'DTEND' || key === 'DESCRIPTION') {
+            if (key === 'SUMMARY' || key === 'DTSTART' || key === 'DTEND' || key === 'DESCRIPTION' || key === 'RRULE') {
               current[key] = val;
             }
           }
@@ -219,9 +219,91 @@
       return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     }
 
+    function parseRRule(rruleStr) {
+      const parts = {};
+      for (const part of rruleStr.split(';')) {
+        const [k, v] = part.split('=');
+        parts[k] = v;
+      }
+      return parts;
+    }
+
+    function expandRecurringEvents(rawEvents) {
+      const expanded = [];
+      for (const e of rawEvents) {
+        if (!e.RRULE) {
+          expanded.push(e);
+          continue;
+        }
+        const rule = parseRRule(e.RRULE);
+        const freq = rule.FREQ;
+        const interval = parseInt(rule.INTERVAL, 10) || 1;
+        const count = rule.COUNT ? parseInt(rule.COUNT, 10) : null;
+        const until = rule.UNTIL ? parseICSDatetime(rule.UNTIL) : null;
+
+        const origStart = parseICSDatetime(e.DTSTART);
+        const origEnd = e.DTEND ? parseICSDatetime(e.DTEND) : new Date(origStart.getTime() + 3600000);
+        const duration = origEnd.getTime() - origStart.getTime();
+
+        // Cap expansion to a reasonable window (2 years from original start)
+        const maxDate = until || new Date(origStart.getFullYear() + 2, origStart.getMonth(), origStart.getDate());
+
+        let occurrences = 0;
+        const cur = new Date(origStart);
+
+        while (cur <= maxDate) {
+          if (count !== null && occurrences >= count) break;
+
+          const newStart = new Date(cur);
+          const newEnd = new Date(cur.getTime() + duration);
+          const allDay = isDateOnly(e.DTSTART);
+          const fmtDate = d => {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            if (allDay) return y + m + day;
+            const h = String(d.getHours()).padStart(2, '0');
+            const min = String(d.getMinutes()).padStart(2, '0');
+            const sec = String(d.getSeconds()).padStart(2, '0');
+            return y + m + day + 'T' + h + min + sec;
+          };
+
+          expanded.push({
+            ...e,
+            DTSTART: fmtDate(newStart),
+            DTEND: fmtDate(newEnd),
+            RRULE: undefined
+          });
+
+          occurrences++;
+
+          // Advance cursor based on frequency
+          switch (freq) {
+            case 'DAILY':
+              cur.setDate(cur.getDate() + interval);
+              break;
+            case 'WEEKLY':
+              cur.setDate(cur.getDate() + 7 * interval);
+              break;
+            case 'MONTHLY':
+              cur.setMonth(cur.getMonth() + interval);
+              break;
+            case 'YEARLY':
+              cur.setFullYear(cur.getFullYear() + interval);
+              break;
+            default:
+              cur.setDate(cur.getDate() + interval);
+              break;
+          }
+        }
+      }
+      return expanded;
+    }
+
     function buildEventsByDate(rawEvents) {
       const byDate = {};
-      for (const e of rawEvents) {
+      const expanded = expandRecurringEvents(rawEvents);
+      for (const e of expanded) {
         const { start, end, summary, allDay, colorClass } = normalizeEventDate(e);
         const date = new Date(start.getFullYear(), start.getMonth(), start.getDate());
         const endDate = new Date(end.getFullYear(), end.getMonth(), end.getDate());
