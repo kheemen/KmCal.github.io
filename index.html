@@ -383,7 +383,7 @@
       const list = eventsByDate[key] || [];
       for (const ev of list) {
         const span = document.createElement('div');
-        span.className = 'event ' + (ev.colorClass || '');
+        span.className = 'event' + (ev.summary.length <= 3 ? '' : ' ' + (ev.colorClass || ''));
         span.title = ev.summary;
         span.textContent = ev.summary;
         dayEl.appendChild(span);
