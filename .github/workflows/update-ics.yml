@@ -18,7 +18,7 @@ jobs:
 
       - name: Download ICS file
         run: |
-          curl -L "http://p135-caldav.icloud.com/published/2/MTE4NDIxNDM0ODExODQyMfCUu7xP-sGAfBxl3uh4ZYGgKw49XDtUNHxNXFfp-n2HUCLrdWc_APvPHxDGM8NvgkrrL3rDMO63Sl45YHepKE8" --output calendar.ics
+          curl -L "${{ secrets.ICLOUD_CALENDAR_URL }}" --output calendar.ics
 
       - name: Commit and push if changed
         run: |
